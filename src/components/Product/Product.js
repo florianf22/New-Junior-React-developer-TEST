@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import ProductsContext from '../../contexts/ProductsContext';
 import { connect } from 'react-redux';
 import { useQuery } from '@apollo/client';
 import Parser from 'html-react-parser';
@@ -49,12 +48,14 @@ const Product = injectProductQuery(
 
     onAddToCartClick = () => {
       const { addToCart, productProps, toggleCartPopup } = this.props;
+      console.log(productProps);
       addToCart(this.props.match.params.id, productProps);
       toggleCartPopup();
     };
 
     removeFromCartClick = () => {
-      this.props.deleteProductCart(this.state.product.id);
+      console.log(this.props);
+      this.props.deleteProductCart(this.props.query.data.product.id);
     };
 
     isInCart = () => {
@@ -88,7 +89,6 @@ const Product = injectProductQuery(
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;
 
-      console.log(data);
       const { product } = data;
 
       return (

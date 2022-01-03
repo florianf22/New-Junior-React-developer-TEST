@@ -7,27 +7,27 @@ import SpanStyled from './ProductAttributesSpanStyles';
 
 class ProductAttributes extends PureComponent {
   componentDidMount() {
-    this.props.selectProductProps(
-      this.props.attributes.map((attr) => attr.name)
-    );
+    this.props.attributes.forEach(attr => {
+      this.props.selectProductProps([attr.name], attr.items[1].value);
+    });
   }
 
   componentWillUnmount() {
     this.props.removeProductProps();
   }
 
-  onProductPropsChange = (attribute, idx) => {
+  onProductPropsChange = (attribute, val) => {
     // selectProductProps reducer expects an array
-    this.props.selectProductProps([attribute], idx);
+    this.props.selectProductProps([attribute], val);
   };
 
-  renderAttributeItems = (attribute) => {
-    return attribute.items.map((item, idx) => {
+  renderAttributeItems = attribute => {
+    return attribute.items.map(item => {
       return (
         <SpanStyled
-          isSelected={this.props.productProps[attribute.name] === idx}
+          isSelected={this.props.productProps[attribute.name] === item.value}
           color={attribute.type === 'swatch' ? item.value : null}
-          onClick={() => this.onProductPropsChange(attribute.name, idx)}
+          onClick={() => this.onProductPropsChange(attribute.name, item.value)}
           key={item.id}
         >
           {attribute.type === 'swatch' ? null : item.value}
@@ -37,7 +37,7 @@ class ProductAttributes extends PureComponent {
   };
 
   renderAttributes = () => {
-    return this.props.attributes.map((attribute) => {
+    return this.props.attributes.map(attribute => {
       return (
         <section key={attribute.name}>
           <h4>{attribute.name}:</h4>
@@ -52,7 +52,7 @@ class ProductAttributes extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     productProps: state.selectedProductProps,
   };

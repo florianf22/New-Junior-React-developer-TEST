@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import _ from 'lodash';
 import { connect } from 'react-redux';
 
 import {
@@ -14,7 +13,7 @@ import ColorOverlay from '../ColorOverlay/ColorOverlay';
 class DrowdownMenu extends PureComponent {
   static contextType = CurrenciesContext;
 
-  getFormattedCurrencies = _ => {
+  getFormattedCurrencies = () => {
     const formattedCurrencies = this.context.currencies.map(currency => {
       return `${currency.symbol} ${currency.label}`;
     });

@@ -6,19 +6,16 @@ import { addToCart } from '../../redux/actions';
 import { SpanStyled, DivStyled, MainDivStyled } from './CartAttributesStyles';
 
 class CartAttributes extends PureComponent {
-  renderItem = (items, attrName) => {
-    const { cart, id } = this.props;
-    const selectedValue = cart[id].attributeNames[attrName];
-
+  renderItem = (value, attrName) => {
     return (
       <SpanStyled
         key={attrName}
         isSelected
-        color={attrName === 'Color' ? items[selectedValue].value : null}
+        color={attrName === 'Color' ? value : null}
         height={this.props?.height}
         width={this.props?.width}
       >
-        {attrName === 'Color' ? null : items[selectedValue].value}
+        {attrName === 'Color' ? null : value}
       </SpanStyled>
     );
   };
@@ -26,13 +23,13 @@ class CartAttributes extends PureComponent {
   renderAttributes = () => {
     const { attributes } = this.props;
 
-    if (!attributes || attributes.length === 0) return null;
+    if (!attributes) return null;
 
-    return attributes.map(attr => {
+    return Object.keys(attributes).map(attr => {
       return (
         // if someone passess down height means that minified versions should be display
         <DivStyled key={attr.name} compressed={this.props?.height}>
-          {this.renderItem(attr.items, attr.name)}
+          {this.renderItem(attributes[attr], attr)}
         </DivStyled>
       );
     });

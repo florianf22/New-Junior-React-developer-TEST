@@ -31,8 +31,7 @@ class CartItem extends PureComponent {
   };
 
   render() {
-    const { id, name, category, gallery, attributes, currency, prices, cart } =
-      this.props;
+    const { id, name, category, gallery, currency, prices, cart } = this.props;
 
     if (!cart[id]) return null;
 
@@ -47,7 +46,7 @@ class CartItem extends PureComponent {
           <CartAttributes
             height={this.props?.height}
             width={this.props?.width}
-            attributes={attributes}
+            attributes={cart[id].attributeNames}
             id={id}
           />
         </section>
