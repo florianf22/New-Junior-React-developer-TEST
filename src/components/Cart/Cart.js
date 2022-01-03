@@ -6,16 +6,17 @@ import MainStyled from './CartStyles';
 import ProductsContext from '../../contexts/ProductsContext';
 import ButtonStyled from '../../sharedStyles/ButtonStyle';
 import CartItems from '../CartItems/CartItems';
+import TotalSumLabel from '../TotalSumLabel/TotalSumLabel';
 
 class Cart extends PureComponent {
   static contextType = ProductsContext;
 
   // next three functions are just alert your selected items
-  turnProductIdToName = (id) => {
+  turnProductIdToName = id => {
     return (
       id
         .split('-')
-        .map((st) => st[0].toUpperCase() + st.slice(1))
+        .map(st => st[0].toUpperCase() + st.slice(1))
         .join(' ') + '\n'
     );
   };
@@ -42,6 +43,7 @@ class Cart extends PureComponent {
         <ul>
           <CartItems />
         </ul>
+        <TotalSumLabel />
         <ButtonStyled onClick={this.onProceedClick}>
           Proceed with the payment
         </ButtonStyled>
@@ -50,9 +52,10 @@ class Cart extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     cart: state.cart,
+    products: state.products,
   };
 };
 

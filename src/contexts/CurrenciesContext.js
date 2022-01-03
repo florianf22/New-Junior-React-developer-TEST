@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import { useQuery } from '@apollo/client';
 
-import { PRODUCTS } from '../graphql/Queries';
+import { CURRENCIES } from '../graphql/Queries';
 import makeHOC from '../makeHOC';
 
-const injectProductsQuery = makeHOC(useQuery, 'query', props => [PRODUCTS]);
+const injectCurrenciesQuery = makeHOC(useQuery, 'query', props => [CURRENCIES]);
 
 const Context = React.createContext();
 
-export const ProductsStore = injectProductsQuery(
-  class ProductsStore extends Component {
-    // onCategoryChange = category => {
-    //   this.setState({ selectedCategory: category });
-    // };
-
+export const CurrenciesStore = injectCurrenciesQuery(
+  class CurrenciesStore extends Component {
     render() {
       const { data, loading, error } = this.props.query;
 

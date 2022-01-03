@@ -12,12 +12,12 @@ import {
 
 class CartItem extends PureComponent {
   getProductPrice(prices) {
-    return prices.filter((price) =>
-      this.props.currency.includes(price.currency)
+    return prices.filter(price =>
+      this.props.currency.includes(price.currency.label),
     )[0].amount;
   }
 
-  onChangeQuantityClick = (opration) => {
+  onChangeQuantityClick = opration => {
     const { updatetProductCard, id, cart, deleteProductCart } = this.props;
 
     if (opration === 'increment')
@@ -67,7 +67,7 @@ class CartItem extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     cart: state.cart,
     currency: state.products.selectedCurrency,

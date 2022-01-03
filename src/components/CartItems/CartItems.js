@@ -3,11 +3,7 @@ import { connect } from 'react-redux';
 
 import { addToCart } from '../../redux/actions';
 import CartItem from '../CartItem/CartItem';
-import {
-  ListItemStyled,
-  ListItemStyledMini,
-  DivStyled,
-} from './CartItemStyles';
+import { ListItemStyled, ListItemStyledMini } from './CartItemStyles';
 import ProductsContext from '../../contexts/ProductsContext';
 
 class CartItems extends PureComponent {
@@ -42,9 +38,9 @@ class CartItems extends PureComponent {
   render() {
     return (
       <div>
-        {Object.keys(this.props.cart).map((item) => {
+        {Object.keys(this.props.cart).map(item => {
           const product = this.context.category.products.filter(
-            (product) => product.id === item
+            product => product.id === item,
           )[0];
 
           return this.renderList(item, product);
@@ -54,7 +50,7 @@ class CartItems extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     cart: state.cart,
   };

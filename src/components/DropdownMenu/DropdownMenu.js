@@ -2,29 +2,30 @@ import React, { PureComponent } from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 
-import { setCurrency } from '../../redux/actions';
-import ProductsContext from '../../contexts/ProductsContext';
+import {
+  setCurrency,
+  toggleCartPopup,
+  toggleCurrencyDropdownMenu,
+} from '../../redux/actions';
+import CurrenciesContext from '../../contexts/CurrenciesContext';
 import Divstyled from './DropdownMenuStyles';
 import ColorOverlay from '../ColorOverlay/ColorOverlay';
 
 class DrowdownMenu extends PureComponent {
-  static contextType = ProductsContext;
-  state = { open: false };
+  static contextType = CurrenciesContext;
 
-  getFormattedCurrencies = _.memoize((currencySymbols) => {
-    const formattedCurrencies = this.context.currencies.map((currency, idx) => {
-      return `${currencySymbols[idx]} ${currency}`;
+  getFormattedCurrencies = _ => {
+    const formattedCurrencies = this.context.currencies.map(currency => {
+      return `${currency.symbol} ${currency.label}`;
     });
 
     return [
-      ...formattedCurrencies.filter((cur) => cur.includes(this.props.currency)),
-      ...formattedCurrencies.filter(
-        (cur) => !cur.includes(this.props.currency)
-      ),
+      ...formattedCurrencies.filter(cur => cur.includes(this.props.currency)),
+      ...formattedCurrencies.filter(cur => !cur.includes(this.props.currency)),
     ];
-  });
+  };
 
-  renderItems = (currencies) => {
+  renderItems = currencies => {
     return currencies.map((item, idx) => {
       if (idx !== 0)
         return (
@@ -42,19 +43,25 @@ class DrowdownMenu extends PureComponent {
   };
 
   onArrowClick = () => {
-    this.setState({ open: !this.state.open });
+    if (this.props.cartPopupShown.status) {
+      this.props.toggleCartPopup();
+    }
+
+    this.props.toggleCurrencyDropdownMenu();
   };
 
-  onCurrencyClick = (item) => {
+  onCurrencyClick = item => {
     this.props.setCurrency(item);
   };
 
   render() {
-    const currencySymbols = ['$', '£', '$', '¥', 'У'];
-    const currencies = this.getFormattedCurrencies(currencySymbols);
+    const currencies = this.getFormattedCurrencies();
 
     return (
-      <Divstyled onClick={this.onArrowClick} open={this.state.open}>
+      <Divstyled
+        onClick={this.onArrowClick}
+        open={this.props.currencyDropdownMenuShown.status}
+      >
         <h3>{currencies[0]}</h3>
         <div>
           <img
@@ -64,7 +71,7 @@ class DrowdownMenu extends PureComponent {
           />
         </div>
         <ul className="dropdown-list">{this.renderItems(currencies)}</ul>
-        {this.state.open ? (
+        {this.props.currencyDropdownMenuShown.status ? (
           <ColorOverlay
             onClick={() => {
               this.setState({ open: false });
@@ -77,10 +84,16 @@ class DrowdownMenu extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     currency: state.products.selectedCurrency,
+    cartPopupShown: state.cartPopupShown,
+    currencyDropdownMenuShown: state.currencyDropdownMenu,
   };
 };
 
-export default connect(mapStateToProps, { setCurrency })(DrowdownMenu);
+export default connect(mapStateToProps, {
+  setCurrency,
+  toggleCartPopup,
+  toggleCurrencyDropdownMenu,
+})(DrowdownMenu);

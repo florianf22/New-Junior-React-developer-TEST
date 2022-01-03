@@ -6,14 +6,24 @@ import ColorOverlay from '../ColorOverlay/ColorOverlay';
 import CartItems from '../CartItems/CartItems';
 import ButtonStyled from '../../sharedStyles/ButtonStyle';
 import LinkNoStyles from '../../sharedStyles/LinkNoStyles';
-import { toggleCartPopup } from '../../redux/actions';
+import {
+  toggleCartPopup,
+  toggleCurrencyDropdownMenu,
+} from '../../redux/actions';
+import TotalSumLabel from '../TotalSumLabel/TotalSumLabel';
 
 class ShoppingCartMini extends PureComponent {
   countItemsInCart = () => {
-    return Object.values(this.props.cart).filter((item) => item).length;
+    return Object.values(this.props.cart)
+      .filter(item => item)
+      .reduce((total, item) => total + item.quantity, 0);
   };
 
   onTogglePopupClick = () => {
+    if (this.props.currencyDropdownMenuShown.status) {
+      this.props.toggleCurrencyDropdownMenu();
+    }
+
     this.props.toggleCartPopup();
   };
 
@@ -34,6 +44,7 @@ class ShoppingCartMini extends PureComponent {
               My bag, <span>{this.countItemsInCart()} items</span>
             </h6>
             <CartItems compressed />
+            <TotalSumLabel compressed />
             <aside>
               <LinkNoStyles to="/cart">
                 <ButtonStyled
@@ -66,11 +77,15 @@ class ShoppingCartMini extends PureComponent {
   }
 }
 
-const MapStateToProps = (state) => {
+const MapStateToProps = state => {
   return {
     cart: state.cart,
     cartPopupShown: state.cartPopupShown.status,
+    currencyDropdownMenuShown: state.currencyDropdownMenu,
   };
 };
 
-export default connect(MapStateToProps, { toggleCartPopup })(ShoppingCartMini);
+export default connect(MapStateToProps, {
+  toggleCartPopup,
+  toggleCurrencyDropdownMenu,
+})(ShoppingCartMini);

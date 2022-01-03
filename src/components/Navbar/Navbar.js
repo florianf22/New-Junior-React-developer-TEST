@@ -3,20 +3,17 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { setCurrency, setCategory, toggleCartPopup } from '../../redux/actions';
-import ProductsContext from '../../contexts/ProductsContext';
 import { HeaderStyled, LinkStyled } from './NavbarStyles';
 import DrowdownMenu from '../DropdownMenu/DropdownMenu';
 import ShoppingCartMini from '../ShoppingCartMini/ShoppingCartMini';
 
 class Navbar extends PureComponent {
-  static contextType = ProductsContext;
-
-  onCategoryChangeClick = (category) => {
+  onCategoryChangeClick = category => {
     this.props.setCategory(category);
     this.props.toggleCartPopup(false);
   };
 
-  renderLinkItem = (itemName) => {
+  renderLinkItem = itemName => {
     return (
       <LinkStyled
         className="header-link"
@@ -52,7 +49,7 @@ class Navbar extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     currency: state.products.currency,
     category: state.products.selectedCategory,

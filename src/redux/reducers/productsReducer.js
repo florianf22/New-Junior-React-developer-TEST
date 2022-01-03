@@ -1,11 +1,11 @@
-import { SET_SUB_CATEGORY, SET_CURRENCY, SET_CATEGORY } from '../actions/type';
+import { SET_CURRENCY, SET_CATEGORY } from '../actions/type';
 
 const INITIAL_STATE = {
   selectedCurrency: '$ AUD',
   selectedCategory: 'all',
 };
 
-export default (state = INITIAL_STATE, action) => {
+const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SET_CURRENCY:
       return { ...state, selectedCurrency: action.payload };
@@ -15,3 +15,5 @@ export default (state = INITIAL_STATE, action) => {
       return state;
   }
 };
+
+export default reducer;

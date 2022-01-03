@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 
 import { addToCart } from '../../redux/actions';
 
-import { SpanStyled, DivStyled } from './CartAttributesStyles';
+import { SpanStyled, DivStyled, MainDivStyled } from './CartAttributesStyles';
 
 class CartAttributes extends PureComponent {
   renderItem = (items, attrName) => {
-    const { cart, id, attributes } = this.props;
+    const { cart, id } = this.props;
     const selectedValue = cart[id].attributeNames[attrName];
 
     return (
@@ -28,11 +28,10 @@ class CartAttributes extends PureComponent {
 
     if (!attributes || attributes.length === 0) return null;
 
-    return attributes.map((attr) => {
+    return attributes.map(attr => {
       return (
         // if someone passess down height means that minified versions should be display
         <DivStyled key={attr.name} compressed={this.props?.height}>
-          <h3 className="attributes--heading">{attr.name}:</h3>
           {this.renderItem(attr.items, attr.name)}
         </DivStyled>
       );
@@ -40,11 +39,11 @@ class CartAttributes extends PureComponent {
   };
 
   render() {
-    return <div>{this.renderAttributes()}</div>;
+    return <MainDivStyled>{this.renderAttributes()}</MainDivStyled>;
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     cart: state.cart,
   };

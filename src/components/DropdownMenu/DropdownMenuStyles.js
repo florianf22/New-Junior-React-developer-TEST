@@ -10,12 +10,12 @@ export default styled.div`
     position: absolute;
     top: 100%;
     margin-top: 0.5em;
-    width: 125%;
+    width: 135%;
     padding: 0.5em 1em;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     transition: opacity 100ms ease-in;
-    opacity: ${(props) => (props.open ? '1' : '0')};
-    visibility: ${(props) => (props.open ? 'visible' : 'hidden')};
+    opacity: ${props => (props.open ? '1' : '0')};
+    visibility: ${props => (props.open ? 'visible' : 'hidden')};
 
     .dropdown-item {
       transition: opacity 100ms ease-in;
@@ -29,7 +29,7 @@ export default styled.div`
   }
 
   .dropdown-img {
-    transform: ${(props) =>
+    transform: ${props =>
       props.open ? 'rotate(0) scale(1.5)' : 'rotate(-180deg) scale(1.5)'};
     margin-left: 0.5em;
     cursor: pointer;

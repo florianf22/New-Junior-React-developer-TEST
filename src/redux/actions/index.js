@@ -7,9 +7,10 @@ import {
   UPDATE_PRODUCT_CARD,
   DELETE_PRODUCT_CART,
   TOGGLE_CART_POPUP,
+  TOGGLE_CURRENCY_DROPDOWN_MENU,
 } from './type';
 
-export const setCurrency = (currencyCode) => {
+export const setCurrency = currencyCode => {
   return {
     type: SET_CURRENCY,
     payload: currencyCode,
@@ -61,7 +62,7 @@ export const updatetProductCard = (productId, attributeNames, quantity) => {
   };
 };
 
-export const deleteProductCart = (productId) => {
+export const deleteProductCart = productId => {
   return {
     type: DELETE_PRODUCT_CART,
     payload: productId,
@@ -71,6 +72,13 @@ export const deleteProductCart = (productId) => {
 export const toggleCartPopup = (status = true) => {
   return {
     type: TOGGLE_CART_POPUP,
+    payload: status,
+  };
+};
+
+export const toggleCurrencyDropdownMenu = (status = true) => {
+  return {
+    type: TOGGLE_CURRENCY_DROPDOWN_MENU,
     payload: status,
   };
 };
