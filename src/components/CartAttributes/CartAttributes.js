@@ -28,7 +28,7 @@ class CartAttributes extends PureComponent {
     return Object.keys(attributes).map(attr => {
       return (
         // if someone passess down height means that minified versions should be display
-        <DivStyled key={attr.name} compressed={this.props?.height}>
+        <DivStyled key={attr} compressed={!!this.props?.height}>
           {this.renderItem(attributes[attr], attr)}
         </DivStyled>
       );

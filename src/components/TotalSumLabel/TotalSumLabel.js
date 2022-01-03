@@ -34,9 +34,7 @@ class TotalSumLabel extends PureComponent {
 
     return (
       <DivStyled>
-        <h3 className="totalSum" compressed>
-          Total
-        </h3>
+        <h3 className="totalSum">Total</h3>
         <h3 className="totalSum">
           {this.props.products.selectedCurrency.slice(0, 1)}{' '}
           {this.calculateTotalPrice()}
