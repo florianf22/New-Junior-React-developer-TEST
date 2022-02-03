@@ -6,12 +6,6 @@ import DivStyled from './ProductAttributesStyles';
 import SpanStyled from './ProductAttributesSpanStyles';
 
 class ProductAttributes extends PureComponent {
-  componentDidMount() {
-    this.props.attributes.forEach(attr => {
-      this.props.selectProductProps([attr.name], attr.items[1].value);
-    });
-  }
-
   componentWillUnmount() {
     this.props.removeProductProps();
   }

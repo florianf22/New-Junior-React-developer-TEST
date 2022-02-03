@@ -14,9 +14,10 @@ import TotalSumLabel from '../TotalSumLabel/TotalSumLabel';
 
 class ShoppingCartMini extends PureComponent {
   countItemsInCart = () => {
-    return Object.values(this.props.cart)
-      .filter(item => item)
-      .reduce((total, item) => total + item.quantity, 0);
+    return Object.values(this.props.cart).reduce(
+      (total, item) => total + item.quantity,
+      0,
+    );
   };
 
   onTogglePopupClick = () => {

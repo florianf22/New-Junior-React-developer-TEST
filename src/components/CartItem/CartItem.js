@@ -17,23 +17,26 @@ class CartItem extends PureComponent {
     )[0].amount;
   }
 
-  onChangeQuantityClick = opration => {
-    const { updatetProductCard, id, cart, deleteProductCart } = this.props;
+  onChangeQuantityClick = operation => {
+    const { updatetProductCard, id, deleteProductCart, cartItem } = this.props;
 
-    if (opration === 'increment')
-      updatetProductCard(id, cart[id].attributeNames, ++cart[id].quantity);
+    if (operation === 'increment')
+      updatetProductCard(id, cartItem.attributeNames, cartItem.quantity + 1);
 
-    if (opration === 'decrement') {
-      cart[id].quantity === 1
-        ? deleteProductCart(id)
-        : updatetProductCard(id, cart[id].attributeNames, --cart[id].quantity);
+    if (operation === 'decrement') {
+      cartItem.quantity === 1
+        ? deleteProductCart(id, cartItem.attributeNames)
+        : updatetProductCard(
+            id,
+            cartItem.attributeNames,
+            cartItem.quantity - 1,
+          );
     }
   };
 
   render() {
-    const { id, name, category, gallery, currency, prices, cart } = this.props;
-
-    if (!cart[id]) return null;
+    const { id, name, category, gallery, currency, prices, cartItem } =
+      this.props;
 
     return (
       <React.Fragment>
@@ -46,7 +49,7 @@ class CartItem extends PureComponent {
           <CartAttributes
             height={this.props?.height}
             width={this.props?.width}
-            attributes={cart[id].attributeNames}
+            attributes={cartItem.attributeNames}
             id={id}
           />
         </section>
@@ -54,7 +57,7 @@ class CartItem extends PureComponent {
           <button onClick={() => this.onChangeQuantityClick('increment')}>
             +
           </button>
-          <small>{cart[id]?.quantity}</small>
+          <small>{cartItem.quantity}</small>
           <button onClick={() => this.onChangeQuantityClick('decrement')}>
             -
           </button>

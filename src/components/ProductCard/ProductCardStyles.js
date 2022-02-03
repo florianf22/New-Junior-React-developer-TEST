@@ -66,22 +66,13 @@ export default styled.div`
       }
     }
 
-    &:hover {
-      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-
-      button {
-        opacity: 1;
-        visibility: visible;
-      }
-    }
-
     .productCard-bg {
       height: 250px;
       width: 100%;
       display: block;
-      background-image: ${(props) => `url(${props.img})`};
+      background-image: ${props => `url(${props.img})`};
       background-repeat: no-repeat;
-      background-size: cover;
+      background-size: contain;
       background-position: center;
     }
 
@@ -92,6 +83,33 @@ export default styled.div`
       position: absolute;
       top: 300px;
       right: 2em;
+    }
+
+    .out-of-stock {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-transform: uppercase;
+      color: var(--color-text-light);
+      font-weight: 400;
+      transition: opacity 150ms linear, transform 150ms ease-in-out;
+      visibility: hidden;
+      opacity: 0;
+    }
+
+    &:hover {
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+      button {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .out-of-stock {
+        visibility: visible;
+        opacity: 1;
+      }
     }
   }
 `;

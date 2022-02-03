@@ -10,6 +10,7 @@ import {
   addToCart,
   deleteProductCart,
   toggleCartPopup,
+  setProductAttributes,
 } from '../../redux/actions';
 import makeHOC from '../../makeHOC';
 import { PRODUCT } from '../../graphql/Queries';
@@ -21,7 +22,7 @@ const injectProductQuery = makeHOC(useQuery, 'query', props => [
 
 const Product = injectProductQuery(
   class Product extends PureComponent {
-    state = { pictureIdx: 0 };
+    state = { pictureIdx: 0, error: '' };
 
     getPrice = prices => {
       return prices.filter(price =>
@@ -46,40 +47,43 @@ const Product = injectProductQuery(
       });
     };
 
-    onAddToCartClick = () => {
-      const { addToCart, productProps, toggleCartPopup } = this.props;
-      console.log(productProps);
-      addToCart(this.props.match.params.id, productProps);
-      toggleCartPopup();
+    checkForAttributes = () => {
+      const { product } = this.props.query.data;
+      const { productProps } = this.props;
+      let hasAttributes = true;
+
+      product.attributes.forEach(attribute => {
+        if (!productProps[attribute.name]) {
+          hasAttributes = false;
+        }
+      });
+
+      return hasAttributes;
     };
 
-    removeFromCartClick = () => {
-      console.log(this.props);
-      this.props.deleteProductCart(this.props.query.data.product.id);
-    };
+    onAddToCartClick = product => {
+      const { addToCart, productProps, toggleCartPopup, setProductAttributes } =
+        this.props;
 
-    isInCart = () => {
-      return (
-        Object.keys(this.props.cart).filter(
-          (item, idx) => Object.values(this.props.cart)[idx],
-        )[0] === this.props.match.params.id
-      );
-    };
-
-    RenderButton = disabled => {
-      if (!this.isInCart()) {
-        return (
-          <ButtonStyled disabled={disabled} onClick={this.onAddToCartClick}>
-            Add to Cart
-          </ButtonStyled>
-        );
+      if (this.checkForAttributes()) {
+        addToCart(this.props.match.params.id, productProps);
+        toggleCartPopup();
+        setProductAttributes(product.id, product.attributes);
+        this.setState({ error: '' });
       } else {
-        return (
-          <ButtonStyled onClick={this.removeFromCartClick}>
-            Remove from Cart
-          </ButtonStyled>
-        );
+        this.setState({ error: 'Please select all attributes.' });
       }
+    };
+
+    renderButton = (disabled, product) => {
+      return (
+        <ButtonStyled
+          disabled={disabled}
+          onClick={() => this.onAddToCartClick(product)}
+        >
+          Add to Cart
+        </ButtonStyled>
+      );
     };
 
     render() {
@@ -115,9 +119,10 @@ const Product = injectProductQuery(
               {this.props.currency[0]}
               {this.getPrice(product.prices)}
             </small>
-            {this.RenderButton(!product.inStock)}
+            {this.renderButton(!product.inStock, product)}
             <p>{!product.inStock ? '*Product not in stock.' : null}</p>
             <div>{Parser(product.description)}</div>
+            {this.state.error && <p className="error">{this.state.error}</p>}
           </section>
         </MainStyled>
       );
@@ -138,4 +143,5 @@ export default connect(mapStateToProps, {
   addToCart,
   deleteProductCart,
   toggleCartPopup,
+  setProductAttributes,
 })(Product);

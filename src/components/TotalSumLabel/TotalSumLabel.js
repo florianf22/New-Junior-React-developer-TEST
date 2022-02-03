@@ -9,18 +9,22 @@ class TotalSumLabel extends PureComponent {
   static contextType = ProductsContext;
 
   calculateTotalPrice = () => {
+    const { products } = this.context.category;
     let totalPrice = 0;
-    Object.keys(this.props.cart).forEach(cartItem => {
-      const price = this.context.category.products
-        .find(p => p.id === cartItem)
-        .prices.find(
-          pr =>
-            pr.currency.label === this.props.products.selectedCurrency.slice(2),
-        ).amount;
+
+    this.props.cart.forEach(cartItem => {
       totalPrice +=
-        Math.round(price) * (this.props.cart[cartItem]?.quantity || 0);
+        cartItem.quantity *
+        products
+          .find(pro => pro.id === cartItem.productId)
+          .prices.find(
+            price =>
+              price.currency.label ===
+              this.props.products.selectedCurrency.slice(2),
+          ).amount;
     });
-    return totalPrice;
+
+    return totalPrice.toFixed(2);
   };
 
   render() {

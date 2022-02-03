@@ -23,7 +23,7 @@ export default styled.main`
     img {
       width: 100%;
       height: 50vh;
-      object-fit: cover;
+      object-fit: contain;
     }
   }
 
@@ -69,6 +69,13 @@ export default styled.main`
       p {
         font-weight: 400;
       }
+    }
+
+    .error {
+      color: red;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-top: 1em;
     }
   }
 

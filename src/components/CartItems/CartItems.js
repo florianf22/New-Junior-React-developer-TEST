@@ -9,17 +9,17 @@ import ProductsContext from '../../contexts/ProductsContext';
 class CartItems extends PureComponent {
   static contextType = ProductsContext;
 
-  renderList = (item, product) => {
+  renderList = (cartItem, product, idx) => {
     const { compressed } = this.props;
 
     if (compressed) {
       return (
-        <ListItemStyledMini key={item}>
+        <ListItemStyledMini key={idx}>
           <CartItem
             height="27px"
             width="27px"
             firstPicOnly
-            key={item}
+            cartItem={cartItem}
             {...product}
           />
         </ListItemStyledMini>
@@ -28,8 +28,8 @@ class CartItems extends PureComponent {
 
     if (!compressed) {
       return (
-        <ListItemStyled key={item}>
-          <CartItem {...product} />
+        <ListItemStyled key={idx}>
+          <CartItem {...product} cartItem={cartItem} />
         </ListItemStyled>
       );
     }
@@ -38,12 +38,12 @@ class CartItems extends PureComponent {
   render() {
     return (
       <div>
-        {Object.keys(this.props.cart).map(item => {
+        {this.props.cart.map((cartItem, idx) => {
           const product = this.context.category.products.filter(
-            product => product.id === item,
+            product => product.id === cartItem.productId,
           )[0];
 
-          return this.renderList(item, product);
+          return this.renderList(cartItem, product, idx);
         })}
       </div>
     );

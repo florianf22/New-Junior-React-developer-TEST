@@ -23,7 +23,8 @@ class ProductCard extends PureComponent {
       <LinkNoStyles to={`/product/${id}`}>
         <DivStyled img={gallery[0]}>
           <li className="productCard-item" src={gallery[0]}>
-            <span className="productCard-bg"></span>
+            {/* span is displaying the pic */}
+            <span className="productCard-bg" />
             <h2>{name}</h2>
             <p>{currency[0] + this.getProductPrice(prices)}</p>
             <button disabled={!inStock}>
@@ -43,6 +44,8 @@ class ProductCard extends PureComponent {
               </svg>
             </button>
             <small className="stock">{!inStock ? 'Not in Stock' : null}</small>
+            {/* <h3 className="out-of-stock">{inStock ? null : 'Out of Stock'}</h3> */}
+            {!inStock && <h3 className="out-of-stock">Out of Stock</h3>}
           </li>
         </DivStyled>
       </LinkNoStyles>

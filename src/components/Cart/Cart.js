@@ -11,30 +11,9 @@ import TotalSumLabel from '../TotalSumLabel/TotalSumLabel';
 class Cart extends PureComponent {
   static contextType = ProductsContext;
 
-  // next three functions are just alert your selected items
-  turnProductIdToName = id => {
-    return (
-      id
-        .split('-')
-        .map(st => st[0].toUpperCase() + st.slice(1))
-        .join(' ') + '\n'
-    );
-  };
-
-  renderCartObjectsForAlert = () => {
-    return Object.keys(this.props.cart).map((cartItem, idx) => {
-      const cartValue = Object.values(this.props.cart)[idx];
-
-      if (!cartValue) return null;
-
-      return `${cartValue.quantity} ${this.turnProductIdToName(cartItem)}`;
-    });
-  };
-
   onProceedClick = () => {
-    alert('You would have bought\n' + this.renderCartObjectsForAlert());
+    alert('You would have bought products listed in the cart 🙄');
   };
-  // Ending here
 
   render() {
     return (
