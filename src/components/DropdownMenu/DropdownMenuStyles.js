@@ -22,9 +22,6 @@ export default styled.div`
       &:not(:first-of-type) {
         margin-top: 0.7em;
       }
-      &:hover {
-        opacity: 0.8;
-      }
     }
   }
 

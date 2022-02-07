@@ -94,8 +94,6 @@ export default styled.div`
       color: var(--color-text-light);
       font-weight: 400;
       transition: opacity 150ms linear, transform 150ms ease-in-out;
-      visibility: hidden;
-      opacity: 0;
     }
 
     &:hover {
@@ -104,11 +102,6 @@ export default styled.div`
       button {
         opacity: 1;
         visibility: visible;
-      }
-
-      .out-of-stock {
-        visibility: visible;
-        opacity: 1;
       }
     }
   }

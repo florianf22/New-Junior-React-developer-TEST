@@ -22,37 +22,23 @@ class CartAttributes extends PureComponent {
 
   renderAttributes = () => {
     const { attributes, id, productAttributes } = this.props;
-    const compressed = !!this.props?.height;
 
     if (!attributes) return null;
-
-    if (compressed) {
-      return Object.keys(attributes).map((attr, i) => {
-        return (
-          <DivStyled key={i}>
-            {this.renderItem(attributes[attr], attr)}
-          </DivStyled>
-        );
-      });
-    }
 
     return Object.values(productAttributes[id]).map((attr, i) => {
       return (
         <MainDivStyled key={i}>
-          {
-            // if someone passess down height means that minified versions should be display
-            attr.items.map((item, i) => {
-              return (
-                <DivStyled key={i}>
-                  {this.renderItem(
-                    item.value,
-                    attr.id,
-                    item.value === attributes[attr.id],
-                  )}
-                </DivStyled>
-              );
-            })
-          }
+          {attr.items.map((item, i) => {
+            return (
+              <DivStyled key={i}>
+                {this.renderItem(
+                  item.value,
+                  attr.id,
+                  item.value === attributes[attr.id],
+                )}
+              </DivStyled>
+            );
+          })}
         </MainDivStyled>
       );
     });
